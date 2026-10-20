@@ -12,23 +12,27 @@ import models
 import auth
 from database import engine, get_db
 
+# Crear tablas
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Koru API")
 
-origins = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "https://koru-frontend-flame.vercel.app"
-]
-
+# Configuración estricta de CORS para Web y Móvil
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "https://koru-frontend-flame.vercel.app"
+    ],
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allow_headers=["Content-Type", "Authorization", "Accept"],
 )
+
+# --------------------------------------------------
+# DE AQUÍ HACIA ABAJO DEJA TUS RUTAS EXACTAMENTE IGUAL
+# --------------------------------------------------
 
 
 # -------------------------------------------------------------
